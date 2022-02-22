@@ -4,7 +4,7 @@
 
 Repositório feito para registrar o meu estudo em relação aos "State Machines"
 
-Uma state machine serve para gerenciar estados de uma forma mais previsível e explícita. Ou seja, você consegue definir quais ações a aplicação pode executar ou não em um determinado estado.
+Uma state machine serve para gerenciar estados de uma forma mais previsível e explícita. Ou seja, você consegue definir quais estados uma funcionalidade pode ou não assumir, levando em conta seu estado atual.
 
 Por exemplo:
 
