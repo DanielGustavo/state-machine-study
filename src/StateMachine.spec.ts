@@ -28,13 +28,13 @@ it('should not be able to set a initial state that does not exist', () => {
   assert.throws(createMachine, 'The initial state of a state machine must exist')
 })
 
-it('Should be able to execute actions that are available in the current state', () => {
+it('Should be able to execute transitions that are available in the current state', () => {
   const stateMachine = new StateMachine({
     initialState: 'idle',
     states: {
       idle: {
         walk: {
-          execute: () => console.log('walk...'),
+          action: () => console.log('walk...'),
           onDone: 'walking',
           onError: 'idle'
         }
@@ -48,13 +48,13 @@ it('Should be able to execute actions that are available in the current state', 
   assert.equal(stateMachine.state, 'walking')
 })
 
-it('Should not be able to execute actions that are not available in the current state', () => {
+it('Should not be able to set state to one that does not exist', () => {
   const stateMachine = new StateMachine({
     initialState: 'idle',
     states: {
       idle: {
         walk: {
-          execute: () => console.log('walk...'),
+          action: () => console.log('walk...'),
           onDone: 'walking',
           onError: 'idle'
         }
@@ -75,7 +75,7 @@ it('Should be able to pass params to actions functions', () => {
     states: {
       idle: {
         welcome: {
-          execute: (name) => `Hello ${name}!`,
+          action: (name) => `Hello ${name}!`,
         }
       },
     }
@@ -86,13 +86,13 @@ it('Should be able to pass params to actions functions', () => {
   assert.equal(welcomeMsg, 'Hello Daniel!')
 })
 
-it('Actions "onError" must change state when an error happens', () => {
+it('Transitions "onError" must change state when an error happens', () => {
   const stateMachine = new StateMachine({
     initialState: 'idle',
     states: {
       idle: {
         error: {
-          execute: () => { throw new Error('error') },
+          action: () => { throw new Error('error') },
           onError: 'failed',
           onDone: 'idle'
         }
@@ -107,13 +107,13 @@ it('Actions "onError" must change state when an error happens', () => {
   assert.equal(stateMachine.state, 'failed')
 })
 
-it('When action fails, it should not set state to "onDone" value', () => {
+it('When transition fails, it should not set state to "onDone" value', () => {
   const stateMachine = new StateMachine({
     initialState: 'idle',
     states: {
       idle: {
         error: {
-          execute: () => { throw new Error('error') },
+          action: () => { throw new Error('error') },
           onDone: 'done'
         }
       },
@@ -133,7 +133,7 @@ it('Should be able to add a listener to state transitions', () => {
     states: {
       idle: {
         walk: {
-          execute: (shouldFail) => {
+          action: (shouldFail) => {
             if (shouldFail) {
               throw new Error('fail')
             }
@@ -146,7 +146,7 @@ it('Should be able to add a listener to state transitions', () => {
       },
       walking: {
         stop: {
-          execute: () => console.log('stopping...'),
+          action: () => console.log('stopping...'),
           onDone: 'idle'
         }
       },

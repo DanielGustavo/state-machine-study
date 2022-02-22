@@ -1,7 +1,7 @@
-type Action = {
+type Transition = {
   onDone?: string
   onError?: string
-  execute: (...args: any[]) => unknown
+  action: (...args: any[]) => unknown
 }
 
 type Listener = (from: string, to: string) => void
@@ -10,7 +10,7 @@ type ConstructorArgs = {
   initialState: string
   states: {
     [stateName: string]: {
-      [actionName: string]: Action
+      [transitionName: string]: Transition
     }
   }
 }
@@ -25,20 +25,20 @@ export default class StateMachine {
     this.setState(initialState)
   }
 
-  dispatch = (actionName: string, ...args: unknown[]) => {
-    const availableActions = this._states[this.state]
+  dispatch = (transitionName: string, ...args: unknown[]) => {
+    const availableTransitions = this._states[this.state]
 
-    const action = availableActions[actionName];
+    const transition = availableTransitions[transitionName];
 
-    if (action) {
+    if (transition) {
       const currentState = this.state
 
       let returnValue
 
       try {
-        returnValue = action.execute(...args)
+        returnValue = transition.action(...args)
       } catch {
-        this.setState(action?.onError)
+        this.setState(transition?.onError)
 
         if (this._transitionListener) {
           this._transitionListener(currentState, this.state)
@@ -47,7 +47,7 @@ export default class StateMachine {
         return returnValue
       }
 
-      this.setState(action?.onDone)
+      this.setState(transition?.onDone)
 
       if (this._transitionListener) {
         this._transitionListener(currentState, this.state)
@@ -55,7 +55,7 @@ export default class StateMachine {
 
       return returnValue
     } else {
-      throw new Error(`Action "${actionName}" is not available in state "${this.state}"`)
+      throw new Error(`Action "${transitionName}" is not available in state "${this.state}"`)
     }
   }
 

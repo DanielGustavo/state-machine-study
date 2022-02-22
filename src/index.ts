@@ -7,32 +7,32 @@ const product = {
     states: {
       idle: {
         order: {
-          execute: () => console.log('...order'),
+          action: () => console.log('...order'),
           onDone: 'ordered'
         }
       },
 
       ordered: {
         cancel: {
-          execute: () => console.log('...cancel'),
+          action: () => console.log('...cancel'),
           onDone: 'cancelled'
         },
         requestShipment: {
-          execute: () => console.log('...request shipment'),
+          action: () => console.log('...request shipment'),
           onDone: 'shipping'
         }
       },
 
       shipping: {
         deliver: {
-          execute: () => console.log('...deliver'),
+          action: () => console.log('...deliver'),
           onDone: 'delivered'
         }
       },
 
       delivered: {
         confirmDelivery: {
-          execute: () => console.log('...confirm delivery'),
+          action: () => console.log('...confirm delivery'),
           onDone: 'closed'
         }
       },
@@ -41,7 +41,7 @@ const product = {
 
       cancelled: {
         order: {
-          execute: () => console.log('...order'),
+          action: () => console.log('...order'),
           onDone: 'ordered'
         }
       }
