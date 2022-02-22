@@ -24,6 +24,6 @@ Por exemplo:
 
 Os testes foram feitos usando a ferramenta nativa do nodeJs: "assert"
 
-Esse projeto foi feito com o método de desenvolvimento TDD (Test Drive Design):
+Esse projeto foi feito com o método de desenvolvimento TDD (Test Driven Design):
 
 ![](./docs/tests.png)
